@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: textware
+  name: textware
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: textware
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: textware
+    spec:
+      containers:
+      - image: samadhi995/nginx-login:1
+        name: textware
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lb-service
+  labels:
+    app: lb-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: textware
